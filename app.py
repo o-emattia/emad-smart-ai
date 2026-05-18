@@ -1,58 +1,83 @@
 import streamlit as st
 import pandas as pd
-from datetime import datetime
 
-st.set_page_config(page_title="Emad Smart AI", layout="wide")
+st.set_page_config(page_title="Emad AI System", layout="wide")
 
-st.title("🏥 Emad Smart Operations AI")
+# === SIDEBAR ===
+page = st.sidebar.radio("Navigation", [
+    "Home",
+    "AI Assistant",
+    "Data Center",
+    "Dashboard",
+    "Team Productivity",
+    "To-Do List"
+])
 
-# ===== Upload Data =====
-st.header("📂 Upload Data")
-file = st.file_uploader("Upload Excel or CSV")
+# ===== HOME =====
+if page == "Home":
+    st.title("🏥 Emad AI Personal System")
 
-if file:
-    if file.name.endswith(".csv"):
-        df = pd.read_csv(file)
-    else:
-        df = pd.read_excel(file)
+    st.image("https://via.placeholder.com/150", caption="Your Photo")
 
-    st.success("✅ File uploaded successfully")
-    st.dataframe(df)
+    st.write("Welcome to your AI assistant system for work automation and analysis.")
 
-    # ===== Dashboard =====
-    st.header("📊 Dashboard")
+# ===== AI ASSISTANT =====
+elif page == "AI Assistant":
+    st.title("🤖 AI Assistant")
 
-    col1, col2 = st.columns(2)
+    user_input = st.text_area("Ask anything about your data")
 
-    col1.metric("Total Records", len(df))
+    if user_input:
+        st.write("💡 AI Response:")
+        st.write(f"You asked: {user_input}")
+        st.write("➡️ (Next step: real AI integration)")
 
-    if "Status" in df.columns:
-        waiting = len(df[df["Status"] == "Waiting"])
-        col2.metric("Waiting", waiting)
+# ===== DATA CENTER =====
+elif page == "Data Center":
+    st.title("📂 Data Center")
 
-    st.bar_chart(df.select_dtypes(include='number'))
+    file = st.file_uploader("Upload Excel or CSV")
 
-# ===== Manual Entry (optional) =====
-st.header("➕ Quick Add Patient")
-name = st.text_input("Patient Name")
-status = st.selectbox("Status", ["Arrived", "Waiting", "In Progress", "Done"])
+    if file:
+        if file.name.endswith(".csv"):
+            df = pd.read_csv(file)
+        else:
+            df = pd.read_excel(file)
 
-if st.button("Add"):
-    st.write(f"✅ Added: {name} - {status}")
+        st.success("✅ Data uploaded")
+        st.dataframe(df)
 
-# ===== Image Upload =====
-st.header("📷 Upload Images")
+# ===== DASHBOARD =====
+elif page == "Dashboard":
+    st.title("📊 Dashboard")
 
-image = st.file_uploader("Upload image", type=["png","jpg","jpeg"])
-if image:
-    st.image(image)
+    file = st.file_uploader("Upload data for analysis")
 
-# ===== Simple AI Chat =====
-st.header("🤖 AI Assistant")
+    if file:
+        if file.name.endswith(".csv"):
+            df = pd.read_csv(file)
+        else:
+            df = pd.read_excel(file)
 
-user_input = st.text_input("Ask something about your data")
+        st.metric("Rows", len(df))
 
-if user_input:
-    st.write("💡 AI Response:")
-    st.write(f"You asked: {user_input}")
-    st.write("➡️ (Next version will include real AI analysis)")
+        st.bar_chart(df.select_dtypes(include='number'))
+
+# ===== TEAM PRODUCTIVITY =====
+elif page == "Team Productivity":
+    st.title("👨‍⚕️ Team Productivity")
+
+    emp = st.text_input("Employee Name")
+    task = st.text_input("Task Done")
+
+    if st.button("Add Activity"):
+        st.write(f"✅ Recorded: {emp} - {task}")
+
+# ===== TO-DO LIST =====
+elif page == "To-Do List":
+    st.title("✅ To-Do List")
+
+    task = st.text_input("Add Task")
+
+    if st.button("Add"):
+        st.write(f"📌 Task added: {task}")
