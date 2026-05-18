@@ -1,20 +1,4 @@
-st.markdown("""
-    <style>
-    .main {
-        background-color: #0e1117;
-    }
-    h1, h2, h3 {
-        color: #00c6ff;
-    }
-    .stButton button {
-        background-color: #00c6ff;
-        color: black;
-        border-radius: 10px;
-    }
-    </style>
-""", unsafe_allow_html=True)
-import streamlit as st
-import pandas as pd
+
 
 st.set_page_config(page_title="Emad AI System", layout="wide")
 
